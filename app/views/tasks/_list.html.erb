@@ -1,0 +1,53 @@
+<%- model_class = Task -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
+</div>
+<table class="table table-striped">
+  <tbody id="tasklist">
+    <% @tasks.each do |task| %>
+      <tr id="task_tr_<%=task[:id]%>">
+        <% if js %>
+          <%= form_for task, remote: true, id: "task_#{task[:id]}" do |f| %>
+            <td width="10">
+              <%= f.check_box :finished, id: "task_check_#{task[:id]}" %>
+            </td>
+            <td>
+              <%= task[:description] %>
+            </td>
+            <%= javascript_tag do %>
+              $(document).ready(function(){
+              <% if task[:finished] %>
+                $('#task_tr_<%=task[:id]%>').fadeTo('fast', '0.4');
+              <% end %>
+              $('#task_check_<%=task[:id]%>').click(function(){
+              $('#edit_task_<%=task[:id]%>').trigger('submit.rails');
+              var tmp = $(this).parent().parent();
+              tmp.remove();
+              $('#tasklist').append(tmp);
+              tmp.fadeTo('fast', '0.4');
+              });
+
+              });
+            <% end %>
+          <% end %>
+        <% else # not js %>
+            <td width="10">
+              <%= check_box_tag :finished, id: "task_check_#{task[:id]}" %>
+            </td>
+            <td>
+              <%= task[:description] %>
+            </td>
+
+            <%= javascript_tag do %>
+              $(document).ready(function(){
+              <% if task[:finished] %>
+                $('#task_tr_<%=task[:id]%>').fadeTo('fast', '0.4');
+              <% end %>
+              });
+            <% end %>
+
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
