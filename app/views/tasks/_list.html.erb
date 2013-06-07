@@ -32,7 +32,6 @@
           <% end %>
         <% else # not js %>
             <td width="10">
-              <%= check_box_tag :finished, id: "task_check_#{task[:id]}" %>
             </td>
             <td>
               <%= task[:description] %>
@@ -47,6 +46,11 @@
             <% end %>
 
         <% end %>
+        <td>
+          <small class="pull-right">
+            <%= time_ago_in_words task[:updated_at] %> ago
+          </small>
+        </td>
       </tr>
     <% end %>
   </tbody>

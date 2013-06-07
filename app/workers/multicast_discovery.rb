@@ -15,6 +15,7 @@ class MulticastDiscovery
     while true
       msg, info = sock.recvfrom(1024)
       puts "MSG: #{msg} from #{info[2]} (#{info[3]})/#{info[1]} len #{msg.size}"
+      Rails.logger.info "MSG: #{msg} from #{info[2]} (#{info[3]})/#{info[1]} len #{msg.size}"
       Server.where(ip: info[2], port: msg.to_i).first_or_create!
       sleep 1
     end
