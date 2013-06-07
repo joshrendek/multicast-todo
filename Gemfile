@@ -24,12 +24,16 @@ end
 gem 'jquery-rails'
 
 gem 'sucker_punch'
-gem 'trinidad'
+# gem 'trinidad'
 gem 'warbler'
 gem 'net-mdns'
 
 gem 'less-rails'
 gem 'twitter-bootstrap-rails'
+
+group :development do
+  gem 'trinidad'
+end
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

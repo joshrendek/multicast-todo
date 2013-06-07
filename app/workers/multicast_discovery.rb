@@ -12,13 +12,13 @@ class MulticastDiscovery
     sock.setsockopt(Socket::IPPROTO_IP, Socket::IP_ADD_MEMBERSHIP, ip)
     sock.bind(Socket::INADDR_ANY, port)
 
-    msg, info = sock.recvfrom(1024)
-    puts "MSG: #{msg} from #{info[2]} (#{info[3]})/#{info[1]} len #{msg.size}"
-    Server.where(ip: info[2], port: msg.to_i).first_or_create!
+    while true
+      msg, info = sock.recvfrom(1024)
+      puts "MSG: #{msg} from #{info[2]} (#{info[3]})/#{info[1]} len #{msg.size}"
+      Server.where(ip: info[2], port: msg.to_i).first_or_create!
+      sleep 1
+    end
 
-    sleep 10
-
-    SuckerPunch::Queue[:discovery].async.perform
   end
 
 end

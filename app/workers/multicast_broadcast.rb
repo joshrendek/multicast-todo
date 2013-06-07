@@ -1,4 +1,5 @@
 require 'socket'
+require 'java'
 class MutlicastBroadcast
   include SuckerPunch::Worker
 
@@ -7,7 +8,8 @@ class MutlicastBroadcast
     port = 5000
     begin
       socket = UDPSocket.open
-      msg = Rails::Server.new.options[:Port].to_s
+      puts javax.servlet.getServletContext.getServerPort.to_s
+      msg = ( 3000 ).to_s
       socket.send(msg, 0, addr, port)
     ensure
       socket.close
